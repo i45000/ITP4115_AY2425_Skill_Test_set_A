@@ -20,7 +20,7 @@ services:
 
   postgresdb:
     container_name: postgres_container
-    image: postgres
+    image: postgres:15.3 # Specify the desired version here
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
