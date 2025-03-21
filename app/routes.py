@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, flash, redirect, url_for,abort ,request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from urllib.parse import urlparse  # Updated import
 from flask_babel import _, get_locale
@@ -86,7 +86,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data,gender=form.gender.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -189,3 +189,8 @@ def unfollow(username):
     db.session.commit()
     flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
+
+
+@app.route('/trigger-400')
+def trigger_400():
+    abort(400)  # This will return a 400 Bad Request error

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, \
-    TextAreaField
+    TextAreaField ,SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, \
     Length
 from flask_babel import _, lazy_gettext as _l
@@ -17,11 +17,17 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    gender = SelectField(
+        _l('Gender'),
+        choices=[('male', _l('Male')), ('female', _l('Female'))],
+        validators=[DataRequired()]
+    )
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
-        _l('Repeat Password'), validators=[DataRequired(),
-                                           EqualTo('password')])
+        _l('Repeat Password'), validators=[DataRequired(), EqualTo('password')]
+    )
     submit = SubmitField(_l('Register'))
+
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
