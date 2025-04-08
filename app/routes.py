@@ -8,6 +8,7 @@ from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, \
     ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User, Post
 from app.email import send_password_reset_email
+import requests
 
 
 @app.before_request
@@ -56,6 +57,22 @@ def explore():
                            prev_url=prev_url)
 
 
+@app.route('/weather')
+@login_required
+def weather():
+
+    hko_url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=en"
+    
+    response = requests.get(hko_url)
+    
+    weather_data = response.json() if response.status_code == 200 else None
+    return render_template(
+        'weather.html.j2',
+        title=_('Weather'),
+        weathers_data=weather_data
+    )
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -86,14 +103,14 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data,gender=form.gender.data, email=form.email.data)
+        user = User(username=form.username.data,email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash(_('Congratulations, you are now a registered user!'))
         return redirect(url_for('login'))
     return render_template('register.html.j2', title=_('Register'), form=form)
-
+#reset_password_request
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
@@ -142,7 +159,7 @@ def user(username):
                            next_url=next_url, prev_url=prev_url)
 
 
-@app.route('/edit_profile', methods=['GET', 'POST'])
+@app.route('/edit_my_profile', methods=['POST', 'DELETE'])
 @login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
@@ -169,7 +186,7 @@ def follow(username):
     if user == current_user:
         flash(_('You cannot follow yourself!'))
         return redirect(url_for('user', username=username))
-    current_user.follow(user)
+    current_user.follow_user(user)
     db.session.commit()
     flash(_('You are following %(username)s!', username=username))
     return redirect(url_for('user', username=username))
@@ -190,7 +207,8 @@ def unfollow(username):
     flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
 
-
+# Do not delote following code.
 @app.route('/trigger-400')
 def trigger_400():
     abort(400)  # This will return a 400 Bad Request error
+#------------------------------------------------------

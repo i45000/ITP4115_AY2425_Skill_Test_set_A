@@ -17,11 +17,6 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    gender = SelectField(
-        _l('Gender'),
-        choices=[('male', _l('Male')), ('female', _l('Female'))],
-        validators=[DataRequired()]
-    )
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(), EqualTo('password')]
@@ -60,7 +55,7 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField(_l('Submit'))
 
     def __init__(self, original_username, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args, **kwargs)
+        super(EditLOL-, self).__init__(*args, **kwargs)
         self.original_username = original_username
 
     def validate_username(self, username):
