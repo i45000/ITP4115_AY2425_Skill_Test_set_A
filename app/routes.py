@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for,abort ,request, g
 from flask_login import login_user, logout_user, current_user, login_required
-from urllib.parse import urlparse  # Updated import
+from urllib.parse import urlparse  
 from flask_babel import _, get_locale
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, \
