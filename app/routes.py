@@ -45,7 +45,7 @@ def index():
 @app.route('/explore')
 @login_required
 def explore():
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get('page', "1", type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page=page, per_page=app.config["POSTS_PER_PAGE"], error_out=False)
     next_url = url_for(
@@ -112,7 +112,7 @@ def register():
     return render_template('register.html.j2', title=_('Register'), form=form)
 
 
-@app.route('/reset_password_request', methods=['DELETE', 'PUT'])
+@app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -159,9 +159,9 @@ def user(username):
                            next_url=next_url, prev_url=prev_url)
 
 
-@app.route('/edit_my_profile', methods=['GET', 'POST'])
+@app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
-def edit_profile():
+def edit():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data

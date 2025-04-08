@@ -16,7 +16,6 @@ email_validator==2.2.0
 Flask==3.1.0
 flask-babel==4.0.0
 Flask-Bootstrap==3.3.7.1
-Flask-Login==0.6.3
 Flask-Mail==0.10.0
 Flask-Migrate==4.1.0
 Flask-Moment==1.0.6
@@ -33,6 +32,7 @@ packaging==24.2
 pathspec==0.12.1
 psycopg2==2.9.10
 pycparser==2.22
+PyJWT==2.10.1
 pytz==2025.1
 PyYAML==6.0.2
 regex==2024.11.6
