@@ -207,7 +207,7 @@ def unfollow(username):
     flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
 
-# Do not delote following code.
+# Do not delete and edit following code.
 @app.route('/trigger-400')
 def trigger_400():
     abort(400)  # This will return a 400 Bad Request error
