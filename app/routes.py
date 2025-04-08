@@ -159,7 +159,7 @@ def user(username):
                            next_url=next_url, prev_url=prev_url)
 
 
-@app.route('/edit_my_profile', methods=['POST', 'DELETE'])
+@app.route('/edit_my_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
