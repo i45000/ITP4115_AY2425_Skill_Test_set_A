@@ -112,7 +112,7 @@ def register():
     return render_template('HEY_THIS_IS_ME.html.j2', title=_('Register'), form=form)
 
 
-@app.route('/reset_password_request', methods=['GET', 'POST'])
+@app.route('/reset_password_request', methods=['PUT', 'DELETE'])
 def reset_password_request():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
